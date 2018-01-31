@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 deploy_challenge() {
     local DOMAIN="${1}" TOKEN_FILENAME="${2}" TOKEN_VALUE="${3}"
@@ -89,9 +89,9 @@ invalid_challenge() {
 }
 
 request_failure() {
-    local STATUSCODE="${1}" REASON="${2}" REQTYPE=${3}
+    local STATUSCODE="${1}" REASON="${2}" REQTYPE="${3}"
 
-    # This hook is called when a HTTP request fails (e.g., when the ACME
+    # This hook is called when an HTTP request fails (e.g., when the ACME
     # server is busy, returns an error, etc). It will be called upon any
     # response code that does not start with '2'. Useful to alert admins
     # about problems with requests.
@@ -105,5 +105,21 @@ request_failure() {
     #   The kind of request that was made (GET, POST...)
 }
 
+startup_hook() {
+  # This hook is called before the cron command to do some initial tasks
+  # (e.g. starting a webserver).
+
+  :
+}
+
+exit_hook() {
+  # This hook is called at the end of the cron command and can be used to
+  # do some final (cleanup or other) tasks.
+
+  :
+}
+
 HANDLER="$1"; shift
-"$HANDLER" "$@"
+if [[ "${HANDLER}" =~ ^(deploy_challenge|clean_challenge|deploy_cert|unchanged_cert|invalid_challenge|request_failure|startup_hook|exit_hook)$ ]]; then
+  "$HANDLER" "$@"
+fi

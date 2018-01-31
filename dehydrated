@@ -973,7 +973,6 @@ sign_domain() {
   # Update symlinks
   [[ "${privkey}" = "privkey.pem" ]] || ln -sf "privkey-${timestamp}.pem" "${certdir}/privkey.pem"
 
-<<<<<<< HEAD
   ln -sf "chain-${timestamp}.pem" "${CERTDIR}/${domain}/chain.pem"
   ln -sf "fullchain-${timestamp}.pem" "${CERTDIR}/${domain}/fullchain.pem"
   ln -sf "cert-${timestamp}.csr" "${CERTDIR}/${domain}/cert.csr"
@@ -981,12 +980,6 @@ sign_domain() {
   if [ "${PFX_OUTPUT}" = "yes" ]; then
     ln -sf "certificate-${timestamp}.pfx" "${CERTDIR}/${domain}/certificate.pfx"
   fi
-=======
-  ln -sf "chain-${timestamp}.pem" "${certdir}/chain.pem"
-  ln -sf "fullchain-${timestamp}.pem" "${certdir}/fullchain.pem"
-  ln -sf "cert-${timestamp}.csr" "${certdir}/cert.csr"
-  ln -sf "cert-${timestamp}.pem" "${certdir}/cert.pem"
->>>>>>> remotes/origin/master
 
   # Wait for hook script to clean the challenge and to deploy cert if used
   [[ -n "${HOOK}" ]] && "${HOOK}" "deploy_cert" "${domain}" "${certdir}/privkey.pem" "${certdir}/cert.pem" "${certdir}/fullchain.pem" "${certdir}/chain.pem" "${timestamp}"
